@@ -98,8 +98,7 @@ Ouvrir le navigateur à l'adresse : **http://localhost:5000**
 ├── requirements.txt        # Dépendances Python
 ├── .env                    # Clé API (non commitée)
 ├── .gitignore
-├── README.md
-├── STUDENTS.md             # Liste des étudiants du groupe
+├── README.md           
 ├── templates/
 │   └── index.html          # Interface utilisateur (HTML)
 └── static/
@@ -134,20 +133,4 @@ Le LLM est utilisé pour :
 - Améliorer les descriptions d'expérience avec des verbes d'action
 - Rédiger une lettre de motivation complète et personnalisée
 
----
 
-## Vidéo de démonstration
-
-> La vidéo de démonstration est disponible à la racine du dépôt : `demo.mp4`
-
----
-
-## Étudiants
-
-Voir [STUDENTS.md](STUDENTS.md)
-
----
-
-## Licence
-
-Projet académique — Tous droits réservés aux auteurs.
