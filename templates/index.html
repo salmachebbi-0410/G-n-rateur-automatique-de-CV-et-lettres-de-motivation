@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CV & Lettre IA — Générateur Automatique</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="logo">
+      <i class="fa-solid fa-file-pen"></i>
+      <span>CV & Lettre <span class="accent">IA</span></span>
+    </div>
+    <p class="tagline">Génère ton CV et ta lettre de motivation en quelques secondes grâce à l'IA</p>
+  </div>
+</header>
+
+<main>
+  <!-- FORM SECTION -->
+  <section class="form-section" id="formSection">
+    <form id="cvForm" novalidate>
+
+      <!-- ÉTAPE 1 : Infos personnelles -->
+      <div class="card">
+        <div class="card-header">
+          <span class="step-badge">1</span>
+          <h2><i class="fa-solid fa-user"></i> Informations personnelles</h2>
+        </div>
+        <div class="card-body grid-2">
+          <div class="field">
+            <label for="name">Nom complet <span class="req">*</span></label>
+            <input type="text" id="name" name="name" placeholder="Ex: Salma Chebbi" required />
+          </div>
+          <div class="field">
+            <label for="email">Email <span class="req">*</span></label>
+            <input type="email" id="email" name="email" placeholder="salma.chebbi@email.com" required />
+          </div>
+          <div class="field">
+            <label for="phone">Téléphone</label>
+            <input type="tel" id="phone" name="phone" placeholder="+216 20 123 456" />
+          </div>
+          <div class="field">
+            <label for="city">Ville</label>
+            <input type="text" id="city" name="city" placeholder="Tunis, Tunisie" />
+          </div>
+          <div class="field">
+            <label for="linkedin">LinkedIn</label>
+            <input type="text" id="linkedin" name="linkedin" placeholder="linkedin.com/in/salma-chebbi" />
+          </div>
+          <div class="field">
+            <label for="portfolio">Portfolio / Site web</label>
+            <input type="text" id="portfolio" name="portfolio" placeholder="salma-chebbi.dev" />
+          </div>
+        </div>
+      </div>
+
+      <!-- ÉTAPE 2 : Poste ciblé -->
+      <div class="card">
+        <div class="card-header">
+          <span class="step-badge">2</span>
+          <h2><i class="fa-solid fa-bullseye"></i> Poste ciblé</h2>
+        </div>
+        <div class="card-body grid-2">
+          <div class="field">
+            <label for="target_job">Poste visé <span class="req">*</span></label>
+            <input type="text" id="target_job" name="target_job" placeholder="Ex: Développeuse Full-Stack" required />
+          </div>
+          <div class="field">
+            <label for="company">Entreprise cible</label>
+            <input type="text" id="company" name="company" placeholder="Ex: Vermeg, Telnet, Sofrecom" />
+          </div>
+          <div class="field full-width">
+            <label for="job_description">Description du poste (optionnel)</label>
+            <textarea id="job_description" name="job_description" rows="3" placeholder="Colle ici l'offre d'emploi pour personnaliser davantage la lettre..."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- ÉTAPE 3 : Formation -->
+      <div class="card">
+        <div class="card-header">
+          <span class="step-badge">3</span>
+          <h2><i class="fa-solid fa-graduation-cap"></i> Formation</h2>
+        </div>
+        <div class="card-body">
+          <div id="educationList"></div>
+          <button type="button" class="btn-add" onclick="addEducation()">
+            <i class="fa-solid fa-plus"></i> Ajouter une formation
+          </button>
+        </div>
+      </div>
+
+      <!-- ÉTAPE 4 : Expériences -->
+      <div class="card">
+        <div class="card-header">
+          <span class="step-badge">4</span>
+          <h2><i class="fa-solid fa-briefcase"></i> Expériences professionnelles</h2>
+        </div>
+        <div class="card-body">
+          <div id="experienceList"></div>
+          <button type="button" class="btn-add" onclick="addExperience()">
+            <i class="fa-solid fa-plus"></i> Ajouter une expérience
+          </button>
+        </div>
+      </div>
+
+      <!-- ÉTAPE 5 : Compétences & Langues -->
+      <div class="card">
+        <div class="card-header">
+          <span class="step-badge">5</span>
+          <h2><i class="fa-solid fa-star"></i> Compétences & Langues</h2>
+        </div>
+        <div class="card-body grid-2">
+          <div class="field full-width">
+            <label>Compétences techniques <small>(appuyer Entrée pour ajouter)</small></label>
+            <div class="tags-input" id="skillsContainer">
+              <div class="tags-list" id="skillsList"></div>
+              <input type="text" id="skillInput" placeholder="Ex: Python, React, SQL..." onkeydown="addTag(event, 'skills')" />
+            </div>
+            <input type="hidden" id="skillsHidden" name="skills" />
+          </div>
+          <div class="field full-width">
+            <label>Langues <small>(appuyer Entrée pour ajouter)</small></label>
+            <div class="tags-input" id="languagesContainer">
+              <div class="tags-list" id="languagesList"></div>
+              <input type="text" id="languageInput" placeholder="Ex: Français (natif), Anglais (B2)..." onkeydown="addTag(event, 'languages')" />
+            </div>
+            <input type="hidden" id="languagesHidden" name="languages" />
+          </div>
+          <div class="field full-width">
+            <label for="interests">Centres d'intérêt</label>
+            <input type="text" id="interests" name="interests" placeholder="Ex: Photographie, Randonnée, Open-source..." />
+          </div>
+        </div>
+      </div>
+
+      <!-- BOUTON GÉNÉRER -->
+      <div class="generate-section">
+        <button type="submit" class="btn-generate" id="generateBtn">
+          <i class="fa-solid fa-wand-magic-sparkles"></i>
+          Générer mon CV & ma lettre de motivation
+        </button>
+      </div>
+
+    </form>
+  </section>
+
+  <!-- LOADER -->
+  <div class="loader-overlay" id="loaderOverlay">
+    <div class="loader-box">
+      <div class="spinner"></div>
+      <p class="loader-text">L'IA génère votre document...</p>
+      <p class="loader-sub">Cela peut prendre quelques secondes</p>
+    </div>
+  </div>
+
+  <!-- RESULTS SECTION -->
+  <section class="results-section" id="resultsSection">
+    <div class="results-header">
+      <h2><i class="fa-solid fa-check-circle"></i> Documents générés !</h2>
+      <div class="results-actions">
+        <button class="btn-action" onclick="printCV()"><i class="fa-solid fa-print"></i> Imprimer / PDF</button>
+        <button class="btn-action btn-secondary" onclick="resetForm()"><i class="fa-solid fa-rotate-left"></i> Nouveau</button>
+      </div>
+    </div>
+
+    <!-- TABS -->
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('cv', this)"><i class="fa-solid fa-id-card"></i> CV</button>
+      <button class="tab" onclick="switchTab('letter', this)"><i class="fa-solid fa-envelope"></i> Lettre de motivation</button>
+    </div>
+
+    <!-- CV PREVIEW -->
+    <div id="tab-cv" class="tab-content active">
+      <div class="cv-preview" id="cvPreview">
+        <!-- généré dynamiquement par JS -->
+      </div>
+    </div>
+
+    <!-- COVER LETTER PREVIEW -->
+    <div id="tab-letter" class="tab-content">
+      <div class="letter-preview" id="letterPreview">
+        <!-- généré dynamiquement par JS -->
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>Propulsé par <strong>Groq LLM (LLaMA 3.3 70B)</strong> · Interface Web Flask · Projet IA</p>
+</footer>
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+<!-- Template CV (caché, utilisé pour impression) -->
+<div id="printFrame" style="display:none;"></div>
+
+</body>
+</html>
